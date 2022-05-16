@@ -10,8 +10,10 @@ const client = new Client({ intents: [
 ] });
 //Basic Variables
 const id = "764241702562037773";
+//testing server
+//const id = '975158615520460882'
 
-var zecQuotes = ['No bitches?','Did I ask?','Folded.','Simmer down lil bro','ratio',':skull:','bruh','are you freaking kidding me bro','SHELLY IS SO DUMB ITS UNFAIR','Ok but where is your rank 30 brawler?', 'so bad', 'so fat', ':smirk_cat::thumbsup:','HUUUUUUUUUUUUUUH?????','kid','this is brain damage','smooth brain',':moyai:','this is so aids','Common L', 'so good','ion wanna hear it','typical proccess','Process?',"Proccess check?",'aint no way','no shot','no freaking way dude','no shot','tf do you mean','mid','no shot bro','you fumbled the bag','why did you add this bot tho','u think ur some sort of comedian today huh?','this is why nobody likes you']
+var zecQuotes = ['No bitches?','Did I ask?','Folded.','Simmer down lil bro','ratio',':skull:','bruh','are you freaking kidding me bro','SHELLY IS SO DUMB ITS UNFAIR','Ok but where is your rank 30 brawler?', 'so bad', 'so fat', ':smirk_cat::thumbsup:','HUUUUUUUUUUUUUUH?????','kid','this is brain damage','smooth brain',':moyai:','this is so aids','Common L', 'so good','ion wanna hear it','typical proccess','Process?',"Proccess check?",'aint no way','no shot','no freaking way dude','no shot','tf do you mean','mid','no shot bro','you fumbled the bag','why did you add this bot tho','u think ur some sort of comedian today huh?','Nah','']
 //				@Desl					2					@Josh				2					3						@Turtle						@P1				@Xtroyer			@f1				@ange					@froot				2						tyler				jman				pigs
 var pings = ['537805054334337033','537805054334337033','835574860772147250','835574860772147250','835574860772147250','479656417104494602','656232624309927956','498524408604786715','479645386751868938','758380474195378236','728771398561955912','728771398561955912','607588966392266756','468126093606387712','744683791443820678']
 var muted = false;
@@ -43,35 +45,48 @@ client.on('messageCreate', (message) => {
 	}
 	//stops @s
 	if(message.content === '!zecPersonalMute' || message.content === '!zecPM'){
-		message.reply({
-			content:'DM NinjaPig to stop zecs pings @u',
-		})
+		for (let x = 0; x < pings.length; x++)
+		{
+			if(message.author === pings[x])
+			{
+				pings.splice(x)
+			}
+		}
 	}
 	//starts @s
 	if(message.content === '!zecPersonalUnmute' || message.content === '!zecPUM'){
-		message.reply({
-			content:'DM NinjaPig to start zecs pings @u',
-		})
+		var foundAuthor = false;
+		for (let x = 0; x < pings.length; x++){
+			if(message.author === pings[x]){
+				foundAuthor = true;
+			}
+		}
+		if (foundAuthor === false)
+		{
+			pings.push(message.author);
+		}
 	}
 	//suggests phrases
 	if(message.content === '!zecSuggest' || message.content === '!zecS'){
-		message.reply({
-			content:'DM NinjaPig for rn to suggest but there will be a voting thing maybe? idk i have to figure out reactions',
-		})
-		muted = true;
+		//https://discordjs.guide/popular-topics/collectors.html#message-collectors - an at home thing to work on
+		//https://discordjs.guide/interactions/buttons.html#building-and-sending-buttons - an at home thing to work on
 	}
 	if(muted == false){
 		if(message.content === '!zecBot' || message.content === '!zec'){
+			var randomQuote = getRandomInt(zecQuotes.length)
 			message.reply({
-				content:zecQuotes[getRandomInt(zecQuotes.length)],
+				content:zecQuotes[randomQuote],
 			})
+			if (randomQuote === 4){
+				message.react(':thumbsup:')
+			}
 		}
 		// dont reply to urself
-		else if(message.author.id === '886397787485376552'){
-			
-		}
-		else if(getRandomInt(10) == 1){
-			if(getRandomInt(7) == 1){
+		else if(message.author.bot) return;
+		//random chance to reply
+		else if(getRandomInt(10) === 1){
+			//chooses whether to reply or randomly ping people
+			if(getRandomInt(7) === 1){
 				var channel = client.channels.fetch(id).then(channel => channel.send(`<@${pings[getRandomInt(pings.length)]}>` + ' ' + zecQuotes[getRandomInt(zecQuotes.length)]))
 			}
 			else{
