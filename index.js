@@ -13,14 +13,14 @@ const id = "764241702562037773";
 //testing server
 //const id = '975158615520460882'
 
-var zecQuotes = ['No bitches?','Did I ask?','Folded.','Simmer down lil bro','ratio',':skull:','bruh','are you freaking kidding me bro','SHELLY IS SO DUMB ITS UNFAIR','Ok but where is your rank 30 brawler?', 'so bad', 'so fat', ':smirk_cat::thumbsup:','HUUUUUUUUUUUUUUH?????','kid','this is brain damage','smooth brain',':moyai:','this is so aids','Common L', 'so good','ion wanna hear it','typical proccess','Process?',"Proccess check?",'aint no way','no shot','no freaking way dude','no shot','tf do you mean','mid','no shot bro','you fumbled the bag','why did you add this bot tho','u think ur some sort of comedian today huh?','Nah','']
+var zecQuotes = ['No bitches?','Did I ask?','Folded.','Simmer down lil bro','ratio',':skull:','bruh','are you freaking kidding me bro','SHELLY IS SO DUMB ITS UNFAIR','Ok but where is your rank 30 brawler?', 'so bad', 'so fat', ':smirk_cat::thumbsup:','HUUUUUUUUUUUUUUH?????','kid','this is brain damage','smooth brain',':moyai:','this is so aids','Common L', 'so good','ion wanna hear it','typical proccess','Process?',"Process check?",'aint no way','no shot','no freaking way dude','no shot','tf do you mean','mid','no shot bro','you fumbled the bag','why did you add this bot tho','u think ur some sort of comedian today huh?','Nah','this is degenerate','']
 //				@Desl					2					@Josh				2					3						@Turtle						@P1				@Xtroyer			@f1				@ange					@froot				2						tyler				jman				pigs
 var pings = ['537805054334337033','537805054334337033','835574860772147250','835574860772147250','835574860772147250','479656417104494602','656232624309927956','498524408604786715','479645386751868938','758380474195378236','728771398561955912','728771398561955912','607588966392266756','468126093606387712','744683791443820678']
 var muted = false;
 
 // When the client is ready, run this code (only once)
 client.once('ready', () => {
-	console.log('Ready!');
+	console.log('Running!');
 });
 client.on('messageCreate', (message) => {
 	//gives commands
@@ -47,9 +47,11 @@ client.on('messageCreate', (message) => {
 	if(message.content === '!zecPersonalMute' || message.content === '!zecPM'){
 		for (let x = 0; x < pings.length; x++)
 		{
-			if(message.author === pings[x])
+			if(message.author.user.id === pings[x])
 			{
+				//maybe jsut message.author
 				pings.splice(x)
+				console.log(pings[pings.length]);
 			}
 		}
 	}
@@ -57,13 +59,16 @@ client.on('messageCreate', (message) => {
 	if(message.content === '!zecPersonalUnmute' || message.content === '!zecPUM'){
 		var foundAuthor = false;
 		for (let x = 0; x < pings.length; x++){
-			if(message.author === pings[x]){
+			if(message.author.user.id === pings[x]){
+				//maybe just message.author
 				foundAuthor = true;
 			}
 		}
 		if (foundAuthor === false)
 		{
-			pings.push(message.author);
+			pings.push(message.author.user.id);
+			//same thing
+			console.log(pings[pings.length]);
 		}
 	}
 	//suggests phrases
