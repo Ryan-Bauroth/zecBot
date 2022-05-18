@@ -10,7 +10,7 @@ const client = new Client({ intents: [
 ] });
 //Basic Variables
 const genId = "764241702562037773";
-const botId = '901325643474698320'
+const botId = '975158615520460882';
 //testing server
 //const id = '975158615520460882'
 
@@ -18,7 +18,7 @@ var zecQuotes = ['No bitches?','Did I ask?','Folded.','Simmer down lil bro','rat
 //				@Desl					2					@Josh				2					3						@Turtle						@P1				@Xtroyer			@f1				@ange					@froot				2						tyler				jman				pigs '537805054334337033','537805054334337033','835574860772147250','835574860772147250','835574860772147250','479656417104494602','656232624309927956','498524408604786715','479645386751868938','758380474195378236','728771398561955912','728771398561955912','607588966392266756','468126093606387712','744683791443820678'
 var pings = ['537805054334337033']
 
-var suggestId = []
+var suggestId = ['']
 var suggestArray = 0;
 var suggestions = []
 var sentIds = []
@@ -94,22 +94,23 @@ client.on('messageCreate', (message) => {
 			console.log('Added user ' + pings[pings.length - 1] + ' or ' + message.author.username + ' to ping list');
 		}
 	}
+	for (let x = 0; x < suggestId.length; x++){
+		if(message.author.id == suggestId[x]){
+			suggestions.push(message.content);
+			var channel = client.channels.fetch(botId).then(channel => channel.send('Should the suggestion: "' + suggestions[0] + '" be accepeted for zec bot? React with 👍 or 👎 to vote')).then(sent => sentIds.push(sent.id));
+			suggestId.shift;
+		}	
+	}
 	//suggests phrases
 	if(message.content === '!zecSuggest' || message.content === '!zecS'){
 		message.reply({
 			content: 'Send your suggestion as your next message'
 		})
 		suggestId.push(message.author.id);
+		console.log(suggestId[0])
 		
 		//https://discordjs.guide/popular-topics/collectors.html#message-collectors - an at home thing to work on
 		//https://discordjs.guide/interactions/buttons.html#building-and-sending-buttons - an at home thing to work on
-	}
-	for (let x = 0; x < suggestId; x++){
-		if(message.author.id == suggestId[0]){
-			suggestions.push(message.content);
-			var channel = client.channels.fetch(botId).then(channel => channel.send('Should the suggestion: ' + suggestions[0] + ' be accepeted for zec bot? React with 👍 or 👎 to vote')).then(sent => sentIds.push(sent.id));
-			suggestId.shift;
-		}	
 	}
 	if(muted == false){
 		if(message.content === '!zecBot' || message.content === '!zec'){
@@ -118,10 +119,10 @@ client.on('messageCreate', (message) => {
 				content:zecQuotes[randomQuote],
 			})
 			//testing
-			message.react('💀')
+			//message.react('💀')
 			if (randomQuote === 4){
 				//if its "ratio" 
-				message.react('👍')
+				//message.react('👍')
 			}
 		}
 		// dont reply to urself
@@ -146,17 +147,17 @@ client.on('messageCreate', (message) => {
 client.on('messageReactionAdd', (reaction, user) => {
     console.log('a reaction has been added');
 	for (let x = 0; x < sentIds.length; x++){
-		if(reaction.message.author.id == '886397787485376552' && reaction.message.id == sentIds(x)){
+		if(reaction.message.author.id == '886397787485376552' && reaction.message.id == sentIds[x]){
 			if(reaction == '👍'){
-				suggestReactions(x) + 1;
+				suggestReactions[x] + 1;
 			}
 			else if(reaction == '👎'){
-			suggestReactions(x) - 1;
+			suggestReactions[x] - 1;
 			}
 		}
-		if(suggestReactions(x) > 3){
-			console.log('Added the phrase' + suggestions(x) + 'to the phrase list');
-			zecQuotes.push(suggestions(x));
+		if(suggestReactions(x) > 0){
+			console.log('Added the phrase' + suggestions[x] + 'to the phrase list');
+			zecQuotes.push(suggestions[x]);
 		}
 }
 });
