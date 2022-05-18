@@ -155,7 +155,7 @@ client.on('messageReactionAdd', (reaction, user) => {
 			suggestReactions[x] - 1;
 			}
 		}
-		if(suggestReactions(x) > 0){
+		if(suggestReactions[x] > 0){
 			console.log('Added the phrase' + suggestions[x] + 'to the phrase list');
 			zecQuotes.push(suggestions[x]);
 		}
