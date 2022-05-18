@@ -6,7 +6,8 @@ const { token } = require('./config.json');
 // Create a new client instance
 const client = new Client({ intents: [
 	Intents.FLAGS.GUILDS,
-	Intents.FLAGS.GUILD_MESSAGES
+	Intents.FLAGS.GUILD_MESSAGES,
+	Intents.FLAGS.GUILD_MESSAGE_REACTIONS
 ] });
 //Basic Variables
 const genId = "764241702562037773";
@@ -18,8 +19,7 @@ var zecQuotes = ['No bitches?','Did I ask?','Folded.','Simmer down lil bro','rat
 //				@Desl					2					@Josh				2					3						@Turtle						@P1				@Xtroyer			@f1				@ange					@froot				2						tyler				jman				pigs '537805054334337033','537805054334337033','835574860772147250','835574860772147250','835574860772147250','479656417104494602','656232624309927956','498524408604786715','479645386751868938','758380474195378236','728771398561955912','728771398561955912','607588966392266756','468126093606387712','744683791443820678'
 var pings = ['537805054334337033']
 
-var suggestId = ['']
-var suggestArray = 0;
+var suggestId = []
 var suggestions = []
 var sentIds = []
 var suggestReactions = []
@@ -99,6 +99,7 @@ client.on('messageCreate', (message) => {
 			suggestions.push(message.content);
 			var channel = client.channels.fetch(botId).then(channel => channel.send('Should the suggestion: "' + suggestions[0] + '" be accepeted for zec bot? React with 👍 or 👎 to vote')).then(sent => sentIds.push(sent.id));
 			suggestId.shift;
+			console.log(sentIds[0]);
 		}	
 	}
 	//suggests phrases
