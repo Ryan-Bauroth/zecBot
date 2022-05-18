@@ -30,6 +30,13 @@ var muted = false;
 client.once('ready', () => {
 	console.log('Running!');
 });
+
+//maybe this will work? check intents if nothing happens
+client.on('guildCreate', guild => {
+	const channel = guild.channels.cache.find(channel => channel.type === 'text' && channel.permissionsFor(guild.me).has('SEND_MESSAGES'))
+    channel.send("Thanks for inviting me")
+});
+
 client.on('messageCreate', (message) => {
 	//gives commands
 	if(message.content === '!zecCommands' || message.content === '!zecC'){
