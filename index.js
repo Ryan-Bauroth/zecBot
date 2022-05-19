@@ -105,7 +105,7 @@ client.on('messageCreate', (message) => {
 	for (let x = 0; x < suggestId.length; x++){
 		if(message.author.id == suggestId[x]){
 			suggestions.push(message.content);
-			var channel = client.channels.fetch(botId).then(channel => channel.send('Should the suggestion: "' + suggestions[0] + '" be accepeted for zec bot? React with 👍 or 👎 to vote'));
+			var channel = client.channels.fetch(botId).then(channel => channel.send('Should the suggestion: "' + suggestions[x] + '" be accepeted for zec bot? React with 👍 or 👎 to vote'));
 			delete suggestId[x]
 		}	
 	}
@@ -155,7 +155,7 @@ client.on('messageCreate', (message) => {
 client.on('messageReactionAdd', (reaction, user) => {
     console.log('a reaction has been added');
 	for (let x = 0; x < suggestions.length; x++){
-		if(reaction.message.author == '886397787485376552'){
+		if(reaction.message.author == '886397787485376552' && reaction.message.content == 'Should the suggestion: "' + suggestions[x] + '" be accepeted for zec bot? React with 👍 or 👎 to vote'){
 			console.log(reaction.emoji.name);
 			if(reaction.emoji.name == '👍'){
 				suggestReactions[x]++;
