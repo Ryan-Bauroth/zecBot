@@ -174,6 +174,7 @@ client.on('messageReactionAdd', (reaction, user) => {
 			suggestReactions[x] = 0;
 			zecQuotes.push(suggestions[x]);
 			var channel = client.channels.fetch(botId).then(channel => channel.send('The suggestion: "' + suggestions[x] + '" has been accepted! Thanks to ' + user.username + ' for the last vote!'));
+			reaction.message.delete();
 		}
 }
 });
