@@ -1,6 +1,6 @@
 // Require the necessary discord.js classes
 const { channelMention } = require('@discordjs/builders');
-const { Client, Intents } = require('discord.js');
+const { Client, Intents, MessageReaction } = require('discord.js');
 const { Console } = require('winston/lib/winston/transports');
 const { token } = require('./config.json');
 // Create a new client instance
@@ -11,7 +11,7 @@ const client = new Client({ intents: [
 ] });
 //Basic Variables
 const genId = "764241702562037773";
-const botId = '975158615520460882';
+const botId = '901325643474698320';
 //testing server
 //const id = '975158615520460882'
 
@@ -22,7 +22,8 @@ var pings = ['537805054334337033']
 var suggestId = []
 var suggestions = []
 var sentIds = []
-var suggestReactions = []
+//and thats good coding practices (if there becomes more than these 0's then the whole suggest function will break :)
+var suggestReactions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 var muted = false;
 
@@ -104,9 +105,8 @@ client.on('messageCreate', (message) => {
 	for (let x = 0; x < suggestId.length; x++){
 		if(message.author.id == suggestId[x]){
 			suggestions.push(message.content);
-			var channel = client.channels.fetch(botId).then(channel => channel.send('Should the suggestion: "' + suggestions[0] + '" be accepeted for zec bot? React with 👍 or 👎 to vote')).then(sent => sentIds.push(sent.id));
-			suggestId.shift;
-			console.log(sentIds[0]);
+			var channel = client.channels.fetch(botId).then(channel => channel.send('Should the suggestion: "' + suggestions[0] + '" be accepeted for zec bot? React with 👍 or 👎 to vote'));
+			delete suggestId[x]
 		}	
 	}
 	//suggests phrases
@@ -154,18 +154,26 @@ client.on('messageCreate', (message) => {
 })
 client.on('messageReactionAdd', (reaction, user) => {
     console.log('a reaction has been added');
-	for (let x = 0; x < sentIds.length; x++){
-		if(reaction.message.author.id == '886397787485376552' && reaction.message.id == sentIds[x]){
-			if(reaction == '👍'){
-				suggestReactions[x] + 1;
+	for (let x = 0; x < suggestions.length; x++){
+		if(reaction.message.author == '886397787485376552'){
+			console.log(reaction.emoji.name);
+			if(reaction.emoji.name == '👍'){
+				suggestReactions[x]++;
+				console.log('upvote');
+				console.log(suggestReactions);
 			}
-			else if(reaction == '👎'){
-			suggestReactions[x] - 1;
+			else if(reaction.emoji.name == '👎'){
+				suggestReactions[x] = suggestReactions[x] - 1;
+				console.log('downvote');
+				console.log(suggestReactions);
 			}
 		}
-		if(suggestReactions[x] > 0){
-			console.log('Added the phrase' + suggestions[x] + 'to the phrase list');
+		console.log('works here');
+		if(suggestReactions[x] > 4){
+			console.log('Added the phrase: "' + suggestions[x] + '" to the phrase list');
+			suggestReactions[x] = 0;
 			zecQuotes.push(suggestions[x]);
+			var channel = client.channels.fetch(botId).then(channel => channel.send('The suggestion: "' + suggestions[x] + '" has been accepted! Thanks to ' + user.username + ' for the last vote!'));
 		}
 }
 });
