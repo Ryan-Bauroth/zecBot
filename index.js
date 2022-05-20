@@ -187,4 +187,4 @@ client.on('messageReactionAdd', (reaction, user) => {
 });
 
 // Login to Discord with your client's token
-client.login(process.env.DJS_TOKEN);
+client.login(token);
