@@ -169,11 +169,18 @@ client.on('messageReactionAdd', (reaction, user) => {
 			}
 		}
 		console.log('works here');
-		if(suggestReactions[x] > 4){
+		if(suggestReactions[x] > 3){
 			console.log('Added the phrase: "' + suggestions[x] + '" to the phrase list');
 			suggestReactions[x] = 0;
 			zecQuotes.push(suggestions[x]);
 			var channel = client.channels.fetch(botId).then(channel => channel.send('The suggestion: "' + suggestions[x] + '" has been accepted! Thanks to ' + user.username + ' for the last vote!'));
+			reaction.message.delete();
+		}
+		if(suggestReactions[x] < -3){
+			console.log('Denied the phrase: "' + suggestions[x] + '" from the phrase list');
+			suggestReactions[x] = 0;
+			zecQuotes.push(suggestions[x]);
+			var channel = client.channels.fetch(botId).then(channel => channel.send('The suggestion: "' + suggestions[x] + '" has been denied! Thanks to ' + user.username + ' for the last vote!'));
 			reaction.message.delete();
 		}
 }
