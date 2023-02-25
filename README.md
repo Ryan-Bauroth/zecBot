@@ -1,3 +1,3 @@
 # zecBot
 
-This bot is used to act like zecqual and make similar comments to him
+Discord bot that proves my friend only says the same 7ish things
